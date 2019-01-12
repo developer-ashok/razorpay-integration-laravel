@@ -65,6 +65,19 @@
         $('#paymentDate').text(
                 padStart(paymentDate.getDate()) + '.' + padStart(paymentDate.getMonth() + 1) + '.' + paymentDate.getFullYear() + ' ' + padStart(paymentDate.getHours()) + ':' + padStart(paymentDate.getMinutes())
                 );
+        
+        $.ajax({
+            method: 'post',
+            url: "{!!route('dopayment')!!}",
+            data: {
+            "_token": "{{ csrf_token() }}",
+            "razorpay_payment_id": transaction.razorpay_payment_id
+            },            
+            complete: function (r) {
+                console.log('complete');
+                console.log(r);
+            }
+        })
     }
 </script>
 <script>

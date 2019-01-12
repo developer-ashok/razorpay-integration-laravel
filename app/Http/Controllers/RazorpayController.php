@@ -17,15 +17,8 @@ class RazorpayController extends Controller
         //Input items of form
         $input = $request->all();
         
-        //get API Configuration 
-        $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
-        
-        // amount should be in paisa like [10 INR = 1000 CENT]
-        $order  = $api->order->create(array('receipt' => uniqid(), 'amount' => ($input['amount'] * 100), 'currency' => 'INR')); // Creates an order
-        
-        //dd($order);
-        
-        \Session::put('success', 'Payment successful, your order will be despatched in the next 48 hours.');
-        return redirect()->back();
+        // Please check browser console.
+        print_r($input);
+        exit;
     }
 }
