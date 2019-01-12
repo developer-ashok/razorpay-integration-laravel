@@ -13,10 +13,7 @@
                 </a>    
                 <br/>
                 <p><br/>Price: 2,475 INR </p>
-<!--                        <input style="submit" name="amount" id="amount" readonly="readonly"/>-->
                 <input type="hidden" name="amount" id="amount" value="2475"/>
-<!--                        <input type="submit" name="Pay" value="Buy Now" />-->
-
                 <div class="pay">
                     <button class="razorpay-payment-button btn filled small" id="paybtn" type="button">Pay with Razorpay</button>                        
                 </div>
@@ -32,7 +29,6 @@
 
     </div>
 </div>
-
 
 <script>
     $('#rzp-footer-form').submit(function (e) {
@@ -65,14 +61,14 @@
         $('#paymentDate').text(
                 padStart(paymentDate.getDate()) + '.' + padStart(paymentDate.getMonth() + 1) + '.' + paymentDate.getFullYear() + ' ' + padStart(paymentDate.getHours()) + ':' + padStart(paymentDate.getMinutes())
                 );
-        
+
         $.ajax({
             method: 'post',
             url: "{!!route('dopayment')!!}",
             data: {
-            "_token": "{{ csrf_token() }}",
-            "razorpay_payment_id": transaction.razorpay_payment_id
-            },            
+                "_token": "{{ csrf_token() }}",
+                "razorpay_payment_id": transaction.razorpay_payment_id
+            },
             complete: function (r) {
                 console.log('complete');
                 console.log(r);
@@ -93,7 +89,7 @@
 <script>
     window.r = new Razorpay(options);
     document.getElementById('paybtn').onclick = function () {
-        r.open()       
+        r.open()
     }
 </script>
 
