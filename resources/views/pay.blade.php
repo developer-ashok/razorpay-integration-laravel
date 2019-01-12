@@ -1,50 +1,87 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            @if($message = Session::get('error'))
-                <div class="alert alert-danger alert-dismissible fade in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <strong>Error!</strong> {{ $message }}
-                </div>
-            @endif
-            {!! Session::forget('error') !!}
-            @if($message = Session::get('success'))
-                <div class="alert alert-info alert-dismissible fade in" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <strong>Success!</strong> {{ $message }}
-                </div>
-            @endif
-            {!! Session::forget('success') !!}
-            <div class="panel panel-default">
-                <div class="panel-heading">Pay With Razorpay</div>
 
-                <div class="panel-body text-center">
-                    <form action="{!!route('dopayment')!!}" method="POST" >
-                        <!-- Note that the amount is in paise = 50 INR -->
-                        <!--amount need to be in paisa-->
-                        <script src="https://checkout.razorpay.com/v1/checkout.js"
-                                data-key="{{ env('RAZORPAY_KEY') }}"
-                                data-amount="1000"
-                                data-buttontext="Pay 10 INR"
-                                data-name="CodesCompanion"
-                                data-description="Order Value"
-                                data-image="yout_logo_url"
-                                data-prefill.name="name"
-                                data-prefill.email="email"
-                                data-theme.color="#ff7529">
-                        </script>
-                        <input type="hidden" name="_token" value="{!!csrf_token()!!}">
-                    </form>
+<div id="main-content">
+    <div class="container clear">
+        <div class="panel-body" style="border: 1px solid #ddd;padding: 10px;background: #eee;width: 30%;">
+            <form id="rzp-footer-form" action="{!!route('dopayment')!!}" method="POST" style="width: 100%; text-align: center" >
+                @csrf
+
+                <a href="https://amzn.to/2RlZQXk">
+                    <img src="https://images-na.ssl-images-amazon.com/images/I/31tPpWGQWzL.jpg" />
+                </a>    
+                <br/>
+                <p><br/>Price: 2,475 INR </p>
+<!--                        <input style="submit" name="amount" id="amount" readonly="readonly"/>-->
+                <input type="hidden" name="amount" id="amount" value="2475"/>
+<!--                        <input type="submit" name="Pay" value="Buy Now" />-->
+
+                <div class="pay">
+                    <button class="razorpay-payment-button btn filled small" id="paybtn" type="button">Pay with Razorpay</button>                        
                 </div>
+            </form>
+            <br/><br/>
+            <div id="paymentDetail" style="display: none">
+                <center>
+                    <div>paymentID: <span id="paymentID"></span></div>
+                    <div>paymentDate: <span id="paymentDate"></span></div>
+                </center>
             </div>
         </div>
+
     </div>
 </div>
+
+
+<script>
+    $('#rzp-footer-form').submit(function (e) {
+        var button = $(this).find('button');
+        var parent = $(this);
+        button.attr('disabled', 'true').html('Please Wait...');
+        $.ajax({
+            method: 'get',
+            url: this.action,
+            data: $(this).serialize(),
+            complete: function (r) {
+                console.log('complete');
+                console.log(r);
+            }
+        })
+        return false;
+    })
+</script>
+
+<script>
+    function padStart(str) {
+        return ('0' + str).slice(-2)
+    }
+
+    function demoSuccessHandler(transaction) {
+        // You can write success code here. If you want to store some data in database.
+        $("#paymentDetail").removeAttr('style');
+        $('#paymentID').text(transaction.razorpay_payment_id);
+        var paymentDate = new Date();
+        $('#paymentDate').text(
+                padStart(paymentDate.getDate()) + '.' + padStart(paymentDate.getMonth() + 1) + '.' + paymentDate.getFullYear() + ' ' + padStart(paymentDate.getHours()) + ':' + padStart(paymentDate.getMinutes())
+                );
+    }
+</script>
+<script>
+    var options = {
+        key: "{{ env('RAZORPAY_KEY') }}",
+        amount: '247500',
+        name: 'CodesCompanion',
+        description: 'TVS Keyboard',
+        image: 'https://i.imgur.com/n5tjHFD.png',
+        handler: demoSuccessHandler
+    }
+</script>
+<script>
+    window.r = new Razorpay(options);
+    document.getElementById('paybtn').onclick = function () {
+        r.open()       
+    }
+</script>
+
 @endsection
