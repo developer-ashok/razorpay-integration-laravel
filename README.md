@@ -1,3 +1,5 @@
+## Razorpay Payment Gateway Integration – Laravel 5.x
+
 <p><a href="https://travis-ci.org/razorpay/razorpay-php" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/45f7a509bbb48c05a0b5901efef0452b2d6f708c/68747470733a2f2f7472617669732d63692e6f72672f72617a6f727061792f72617a6f727061792d7068702e7376673f6272616e63683d6d6173746572" alt="Build Status"></a> <a href="https://packagist.org/packages/razorpay/razorpay" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/7a7ed26c96e4ba4e97e7053fba9408fd900b588a/68747470733a2f2f706f7365722e707567782e6f72672f72617a6f727061792f72617a6f727061792f762f737461626c652e737667" alt="Latest Stable Version"></a> <a href="https://packagist.org/packages/razorpay/razorpay" rel="nofollow noindex noopener external"><img src="https://camo.githubusercontent.com/956f7543fd6e0ece1361c4eba93fdbdbf70da0d9/68747470733a2f2f706f7365722e707567782e6f72672f72617a6f727061792f72617a6f727061792f6c6963656e73652e737667" alt="License"></a></p>
 
 ## About Laravel
